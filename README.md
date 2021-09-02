@@ -1,7 +1,7 @@
-# leetcode_learning
+# CodeLearning
 
 #### 介绍
-leetcode题解笔记
+目前包含力扣（Leetcode）、洛谷(Luogu）题解总结，以及自己学习的笔记。
 
 #### 软件架构
 软件架构说明
