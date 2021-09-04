@@ -178,3 +178,98 @@
     ```
 
 [第二关训练](https://www.educoder.net/tasks/7sqru6jk3gtw)
+
+## 第三关：re 模块中常用的功能函数（二）
+
+### finditer()函数
+
+-   功能：搜索字符串，返回一个 Match 对象的迭代器（包含匹配的开始和结束位置，如下面的 i 所示）。找到正则匹配的所有子串，把它们作为一个迭代器返回。
+
+-   格式：re.finditer(pattern, string, flags=0)
+
+-   示例
+
+    ```python
+    itext = re.finditer(r'\d+','12 edueduedu44coder deducoder, 11skdh   ds 12')      #匹配所有的数字
+    for i in itext:
+        print(i)
+        print(i.group())
+        print(i.span())   #span()返回一个元组包含匹配 (开始,结束) 的位置
+    ```
+
+    运行结果：
+
+    ```python
+    <re.Match object; span=(0, 2), match='12'>  # i
+    12                                          # i.group()
+    (0, 2)                                      # i.span()
+    <re.Match object; span=(12, 14), match='44'>
+    44
+    (12, 14)
+    <re.Match object; span=(31, 33), match='11'>
+    11
+    (31, 33)
+    <re.Match object; span=(43, 45), match='12'>
+    12
+    (43, 45)
+    ```
+
+### split()函数
+
+-   功能：按照能够匹配的子串，将 string 分割后返回列表。
+-   格式：re.split(pattern, string)
+    可以使用 re.split 来分割字符串，如：re.split(r'\s+', text) 将字符串 text 按空格分割成一个单词列表。
+-   示例
+    以数字为分割符，将字符串分割：
+
+    ```python
+    print(re.split(r'\d+','asas2kdjs4jds5djdfj1djf0'))
+    ```
+
+    运行结果
+
+    ```python
+    ['asas', 'kdjs', 'jds', 'djdfj', 'djf', '']
+    ```
+
+    </br>
+
+### sub()函数
+
+-   功能：使用 repl 替换 string 中的每一个字符串后，返回替换后的字符串。
+-   格式：re.sub(pattern, repl, string, count)
+-   示例
+
+    ```python
+    import re
+    text = "aaa,bbb,ccc,ddd"
+    print(re.sub(r',', '-', text))
+    ```
+
+    运行结果
+
+    ```python
+    aaa-bbb-ccc-ddd
+    ```
+
+    </br>
+
+### subn()函数
+
+-   功能：返回替换次数。
+-   格式：re.subn(pattern, repl, string, count=0, flags=0)
+-   示例
+
+    ```python
+    print(re.subn('\d','A','1asd2dkjf34'))
+    ```
+
+    运行结果
+
+    ```python
+    ('AasdAdkjfAA', 4)
+    ```
+
+    可以看到，subn() 不仅返回了替换后的字符串，还返回了替换的次数。
+
+[第三关训练](https://www.educoder.net/tasks/3xoqfthzfbgm)
