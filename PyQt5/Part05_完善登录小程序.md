@@ -180,4 +180,114 @@ class Demo(QWidget):
 
 ## 5.3 完善注册界面布局及功能
 
-&emsp;&emsp;接下来就是要完善 Sign in 这个按钮的功能。这里我们想的是点击这个按钮后，会出现一个新的界面用于注册。
+&emsp;&emsp;接下来就是要完善 Sign in 这个按钮的功能。这里我们想的是点击这个按钮后，会出现一个新的界面用于注册。<br>
+&emsp;&emsp;该界面一共是由三个 QLabel、三个 QLineEdit 和一个 QPushButton 组成的，首先来完成界面布局：
+
+```python
+class SigninPage(QDialog):
+    def __init__(self):
+        super(SigninPage, self).__init__()
+        self.signin_user_label = QLabel('Username:', self)
+        self.signin_pwd_label = QLabel('Password:', self)
+        self.signin_pwd2_label = QLabel('Password:', self)
+        self.signin_user_line = QLineEdit(self)
+        self.signin_pwd_line = QLineEdit(self)
+        self.signin_pwd2_line = QLineEdit(self)
+        self.signin_button = QPushButton('Sign in', self)
+
+        self.user_h_layout = QHBoxLayout()
+        self.pwd_h_layout = QHBoxLayout()
+        self.pwd2_h_layout = QHBoxLayout()
+        self.all_v_layout = QVBoxLayout()
+
+        self.layout_init()
+
+    def layout_init(self):
+        self.user_h_layout.addWidget(self.signin_user_label)
+        self.user_h_layout.addWidget(self.signin_user_line)
+        self.pwd_h_layout.addWidget(self.signin_pwd_label)
+        self.pwd_h_layout.addWidget(self.signin_pwd_line)
+        self.pwd2_h_layout.addWidget(self.signin_pwd2_label)
+        self.pwd2_h_layout.addWidget(self.signin_pwd2_line)
+
+        self.all_v_layout.addLayout(self.user_h_layout)
+        self.all_v_layout.addLayout(self.pwd_h_layout)
+        self.all_v_layout.addLayout(self.pwd2_h_layout)
+        self.all_v_layout.addWidget(self.signin_button)
+
+        self.setLayout(self.all_v_layout)
+```
+
+&emsp;&emsp;这里我们新写一个类，并继承于 QDialog（另一个毛胚房）。QDialog 就是指对话框，我们平时在软件中点击“打开”或“另存为”而出现的文件对话框就是其中一种。当然这里也可以同样继承于 QWidget，但是 QDialog 中有一个方法是 QWidget 所不具有的，稍后来讲述。<br>
+&emsp;&emsp;首先同样将 Sign in 按钮设为不可用（setEnable(False)），并且只有当三个输入框中都有文本的时候，才会启用这个按钮，原理和之前一样：
+
+```python
+    def lineEdit_init(self):
+        self.signin_user_line.textChanged.connect(self.check_input_func)
+        self.signin_pwd_line.textChanged.connect(self.check_input_func)
+        self.signin_pwd2_line.textChanged.connect(self.check_input_func)
+```
+
+&emsp;&emsp;在 lineEdit_init() 中我们将是三个输入框的 textChanged() 信号跟自定义的 check_input_func() 槽函数进行连接：
+
+```python
+    def check_input_func(self):
+        if self.signin_user_line.text() and self.signin_pwd_line.text() and self.signin_pwd2_line.text():
+            self.signin_button.setEnabled(True)
+        else:
+            self.signin_button.setEnabled(False)
+```
+
+&emsp;&emsp;在槽函数中我们判断三个输入框是否都有文本，有的话则将按钮启用，否则禁用：
+
+```python
+    def pushbutton_init(self):
+        self.signin_button.setEnabled(False)
+        self.signin_button.clicked.connect(self.check_signin_func)
+```
+
+&emsp;&emsp;然后在 pushbutton_init() 中先将 sign in 按钮设为禁用状态，然后将 clicked() 信号和之后自定义的 check_signin_func() 槽函数连接起来。因为在点击注册按钮的时候我们要对输入的文本的内容进行检查，看符不符合要求：
+
+```python
+    def check_signin_func(self):
+        if self.signin_pwd_line.text() != self.signin_pwd2_line.text():
+            QMessageBox.critical(self, 'Wrong', 'Two Passwords Typed Are Not Same!')
+        elif self.signin_user_line.text() not in USER_PWD:
+            USER_PWD[self.signin_user_line.text()] = self.signin_pwd_line.text()
+            QMessageBox.information(self, 'Information', 'Register Successfully')
+        else:
+            QMessageBox.critical(self, 'Wrong', 'This Username Has Been Registered!')
+
+        self.signin_user_line.clear()
+        self.signin_pwd_line.clear()
+        self.signin_pwd2_line.clear()
+```
+
+&emsp;&emsp;首先判断两次密码输入框输入的文本是否一致，若不相同的话，则显示错误框提示；当然我们还要对注册的账号进行判断，如果在字典没有相对应的键，说明该账号没有被注册过，接着将要注册的账号和密码放进字典中，并显示信息框提示注册成功。self.close() 是指关闭对话框自身，也就是在信息框按钮被按下去关闭之后，注册界面的对话框也要一起关闭。最后一种情况就是账号已经被注册过了，于是显示错误框来进行提示。<br>
+&emsp;&emsp;无论哪种情况，最后都会将三个输入框的文本清空掉。<br>
+&emsp;&emsp;那么最后将 self.lineEdit_init() 和 self.pushbutton_init() 放在类的初始化函数中：
+
+```python
+class SigninPage(QDialog):
+    def __init__(self):
+        super(SigninPage, self).__init__()
+        self.signin_user_label = QLabel('Username:', self)
+        self.signin_pwd_label = QLabel('Password:', self)
+        self.signin_pwd2_label = QLabel('Password:', self)
+        self.signin_user_line = QLineEdit(self)
+        self.signin_pwd_line = QLineEdit(self)
+        self.signin_pwd2_line = QLineEdit(self)
+        self.signin_button = QPushButton('Sign in', self)
+
+        self.user_h_layout = QHBoxLayout()
+        self.pwd_h_layout = QHBoxLayout()
+        self.pwd2_h_layout = QHBoxLayout()
+        self.all_v_layout = QVBoxLayout()
+
+        self.lineEdit_init()            # 单行文本输入框
+        
+        self.pushbutton_init()          # 按钮
+        self.layout_init()
+```
+
+## 5.4 整合登录界面和注册界面
