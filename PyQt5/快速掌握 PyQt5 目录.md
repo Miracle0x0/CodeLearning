@@ -5,3 +5,4 @@
 -   [第三章 布局管理](./Part03_布局管理.md)
 -   [第四章 QMessageBox 消息框](./Part04_QMessageBox消息框.md))
 -   [第五章 完善登陆框小程序](./Part05_完善登录小程序.md)
+-   [第六章 文本编辑器 QTextEdit 和文本浏览框 QTextBrowser](./Part06_文本编辑器和文本编辑框.md)
