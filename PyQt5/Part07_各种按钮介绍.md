@@ -169,3 +169,10 @@ if __name__ == '__main__':
 &emsp;&emsp;该控件为复选框，即可以进行多选操作。有时候当我们下载安装一个软件的时候，安装程序会让我们勾选需要安装的内容，我们以 Qt 安装程序为例（此处暂停……）
 
 ## 7.5 小结
+
+1. QPushButton 和 QToolButton 非常相似，不过 QToolButton 更多是与 QToolBar 搭配使用，用来显示工具图片；
+2. 可以通过 setIcon() 方法来给按钮设置图标；可以用 setPixmap() 方法给 QLabel 控件设置图片；
+3. toggled 信号在按钮状态发生改变时发出；stateChanged 也是，不过该信号用于 QCheckBox；
+4. QRadioButton 单选按钮只能进行多远——操作，即每次只会有一个单选按钮被选中；
+5. 如果要让 QCheckBox 拥有三种状态的话，则需要通过 setTristate(True) 方法来设置；
+6. 若要连接带有参数的自定义槽函数，可以通过 lambda 表达式来完成。
