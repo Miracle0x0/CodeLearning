@@ -346,8 +346,237 @@
 
 ## 6.5 网址输入框
 
-&emsp;&emsp;网址框`url`类型属于`input`标签。效果如下：//此处应有图片<br/
+&emsp;&emsp;网址框`url`类型属于`input`标签。效果如下：//此处应有图片<br/>
 &emsp;&emsp;说明：
 
 1. `input`的`type`属性设置为`url`，则表示输入框的类型为网址；
 2. 网址框的值需以 http:// 或 https:// 开头，且后面必须有内容，否则表单提交的时候会报错误提示。
+
+## 6.6 邮箱输入框
+
+&emsp;&emsp;邮箱框`email`类型属于`input`标签。效果如下：//此处应有图片<br/>
+&emsp;&emsp;说明：
+
+1. `input`的`type`属性设置为`email`，则表示该输入框的类型为邮箱；
+2. 邮箱框的值必须包含`@`；
+3. 邮箱框的值`@`之后必须有内容，否则会报错误提示。
+
+## 6.7 使用`<textarea>`标签创建文本域
+
+&emsp;&emsp;当用户需要在表单中输入大段文字时，需要用到文本输入域。<br/>
+&emsp;&emsp;语法：
+
+```HTML
+<textarea rows="行数" cols="列数">文本</textarea>
+```
+
+&emsp;&emsp;说明：
+
+1. `textarea`标签是成对出现的，以`<textarea>`标签开始，以`</textarea>`标签结束；
+2. **`cols`**：多行输入域的**列数**；
+3. **`rows`**：多行输入域的**行数**；
+4. 在`<textarea></textarea>`标签之间可以输入默认值。
+
+&emsp;&emsp;示例：
+
+```HTML
+<form  method="post" action="save.php">
+    <label>联系我们</label>
+    <textarea cols="50" rows="10">在这里输入内容...</textarea>
+</form>
+```
+
+&emsp;&emsp;注意：这两个属性可以用 css 样式的 width 和 height 来代替：col 用 width，row 用 height 来代替。
+
+## 6.8 使用`<label>`标签
+
+&emsp;&emsp;`label`标签不会向用户呈现任何特殊效果，它的作用是为鼠标用户改进了可用性。如果你在`label`标签内点击文本，就会出发此控件。也就是说，当用户单击选中该`label`标签时，浏览器就会自动将焦点转到和标签相关的表单控件上（就自动选中和该`label`标签相关联的表单控件上）。<br/>
+&emsp;&emsp;语法：
+
+```HTML
+<label for="控件id名称">
+```
+
+&emsp;&emsp;注意：标签的**for 属性中的值**应当与相关控件的**id 属性值**相同。<br/>
+&emsp;&emsp;示例：
+
+```HTML
+<form>
+    <label for="email">输入你的邮箱地址</label>
+    <input type="email" id="email" placeholder="Enter email">
+</form>
+```
+
+## 6.9 单选框、复选框
+
+&emsp;&emsp;在使用表单设计调查表时，为了减少用户的操作，使用选择框是一个好主意。HTML 中有两种选择框，即**单选框**和**复选框**，两者的区别是**单选框**中的选项用户只能选择一项，而**复选框**中用户可以选择任意项，包括全选。<br/>
+&emsp;&emsp;语法：
+
+```HTML
+<input type="radio/checkbox" value="值" name="名称" checked="checked"/>
+```
+
+&emsp;&emsp;说明:
+
+1. **`type`**
+
+    - 当`type`为`radio`时，控件为**单选框**
+    - 当`type`为`checkbox`时，控件为**复选框**
+
+2. **`value`**：提交数据到服务器的值（后台程序 PHP 使用）；
+3. **`name`**：为控件命名，以备后台程序 ASP、PHP 使用；
+4. **`checked`**：当设置`checked="checked"`时，该选项被默认选中。
+
+&emsp;&emsp;注意：**同一组**的单选按钮，`name`取值**一定要一致**，这样同一组的单选按钮才可以起到单选的作用。
+
+## 6.10 使用`select`、`option`标签创建下拉菜单
+
+&emsp;&emsp;下拉列表在网页中也常会用到，它可以有效的节省网页空间。它既可以单选，又可以多选。示例如下：
+
+```HTML
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>select下拉框</title>
+</head>
+
+<body>
+    <form>
+        <select>
+            <option value="看书">看书</option>
+            <option value="旅游">旅游</option>
+            <option value="运动">运动</option>
+            <option value="购物" selected="selected">购物</option>
+        </select>
+    </form>
+</body>
+
+</html>
+```
+
+&emsp;&emsp;说明：
+
+1. `select`和`option`标签都是双标签，总是成对出现；
+2. `select`标签里面只能放`option`标签，表示下拉列表的选项；
+3. `option`标签放选项内容，不放置其它标签；
+4. `value`：
+
+```HTML
+<option value="提交值（向服务器提交的值）">选项（显示的值）</option>
+```
+
+5. `selected="selected"`：设置了该属性，则选项默认被选中。
+
+## 6.11 提交按钮
+
+&emsp;&emsp;在表单中有两种按钮可以使用，分别为：提交按钮、重置按钮。当用户需要提交表单信息到服务器时，需要用到**提交按钮**。<br/>
+&emsp;&emsp;语法：
+
+```HTML
+<input type="submit" value="提交">
+```
+
+-   `type`：只有当`type`值设置为`submit`时，按钮才有提交作用
+-   `value`：按钮上显示的文字
+
+&emsp;&emsp;示例：
+
+```HTML
+<form method="post" action="save.php">
+    <label for="myName">姓名：</label>
+    <input type="text" value=" " name="myName " />
+    <input type="submit" value="提交" name="submit" />
+</form>
+```
+
+## 6.12 使用重置按钮，重置表单信息
+
+&emsp;&emsp;当用户输入有误时，可能需要重置表单信息到初始时的状态，可以使用`重置按钮`使输入框恢复到初始状态，只需要把`type`设置为`reset`。<br/>
+&emsp;&emsp;语法：
+
+```HTML
+<input type="reset" value="重置">
+```
+
+-   `type`：只有当`type`设置为`reset`时，按钮才有重置作用
+-   `value`：按钮上显示的文字
+
+&emsp;&emsp;示例：
+
+```HTML
+<form method="post" antion="save.php">
+    <label for="myName">姓名：</label>
+    <input type="text" value=" " name="myName" />
+    <input type="reset" value="重置" name="resetBtn" />
+</form>
+```
+
+# 第七章 CSS3 介绍，为网页添加样式
+
+## 7.1 认识 CSS 样式
+
+&emsp;&emsp;CSS 全称为**层叠样式表（Cascading Style Sheets）**，它主要用于定义 HTML 内容在浏览器内的显示样式，如文字大小、颜色、字体加粗等。<br/>
+&emsp;&emsp;如下列代码：
+
+```CSS
+p {
+    font-size: 12px;
+    color: red;
+    font-weight: bold;
+}
+```
+
+&emsp;&emsp;使用 css 样式的一个好处是通过定义某个样式，可以让不同网页位置的文字有着统一的字体、字号或者颜色等。
+
+## 7.2 CSS 样式的优势
+
+&emsp;&emsp;为什么使用 css 样式来设置网页的外观样式呢？比如说我们想把“超酷的互联网”、“服务及时贴心”、“有趣易学”这三个短语的文本颜色设置为红色，这时就可以通过设置样式来设置，而且只需要编写一条 css 样式语句。<br/>
+
+```CSS
+span {
+    color:red;
+}
+```
+
+## 7.3 CSS 代码语法
+
+&emsp;&emsp;css 样式由**选择符**和**声明**组成，而声明又由**属性**和**值**组成，如下面的示例：
+
+```CSS
+p { color: blue; }
+```
+
+&emsp;&emsp;上面的代码中，p 为选择符，{} 包括的内容为声明，color 为属性，blue 为值。<br/>
+
+-   **选择符**：又称选择器，指明网页中要应用样式规则的元素，如本例中是网页中所有的段（p）的文字将变成蓝色，而其他的元素（如 ol）不会受到影响。
+-   **声明**：在英文大括号 {} 中的的就是声明，属性和值之间用英文冒号“:”分隔。当有多条声明时，中间可以英文分号“;”分隔，如下所示：
+
+```CSS
+p { font-size: 12px; color: red; }
+```
+
+&emsp;&emsp;注意：
+
+1. 最后一条声明可以没有分号，但是为了以后修改方便，一般也加上分号；
+2. 为了使样式更加容易阅读，可以将每条代码写在一个新行内，如下所示：
+
+```CSS
+p {
+    font-size: 12px;
+    color: red;
+}
+```
+
+## 7.4 CSS 注释代码
+
+&emsp;&emsp;就像在 HTML 的注释一样，在 CSS 中也有注释语句：用`/*注释语句*/`来标明（`Html 中使用<!--注释语句-->`)。如下所示：
+
+```CSS
+/*设置段落默认格式*/
+p {
+    font-size: 12px;
+    color: red;
+}
+```
