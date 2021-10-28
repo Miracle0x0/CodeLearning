@@ -580,3 +580,161 @@ p {
     color: red;
 }
 ```
+
+## 7.5 CSS 样式
+
+&emsp;&emsp;从 css 样式代码插入的形式来看，css 样式基本上可以分为三种：**内联式**、**嵌入式**和**外部式**。
+
+### 7.5.1 内联式 CSS 样式
+
+&emsp;&emsp;**内联式** css 样式表就是把 css 代码直接写在现有的 HTML 标签中，如以下代码：
+
+```CSS
+<p style="color:red">这里文字是红色。</p>
+```
+
+&emsp;&emsp;注意要写在元素的开始标签里，并且 css 样式代码要写在 `style=""` 的双引号中，如果有多条 css 样式代码设置可以写在一起，如以下代码：
+
+```CSS
+<p style="color:red; font-size: 12px;">文字内容</p>
+```
+
+### 7.5.2 嵌入式 CSS 样式
+
+&emsp;&emsp;**嵌入式** css 样式，就是可以把 css 样式代码写在`<style type="text/css"></style>`标签之间。如以下代码，实现把`<span>`标签中的文字设置为红色：
+
+```CSS
+<style type="text/css">
+    span {
+        color: red;
+    }
+</style>
+```
+
+&emsp;&emsp;嵌入式 css 样式必须写在`<style></style>`之间，并且一般情况下嵌入式 css 样式写在`<head></head>`之间。
+
+### 7.5.3 外部式 CSS 样式
+
+&emsp;&emsp;**外部式**（也成为外联式）css 样式就是把 css 代码写在一个单独的外部文件中，这个 css 样式文件以`.css`为拓展名，在`<head>`内（不是在`<style>`标签内）使用`<link>`将 css 样式文件链接到 HTML 文件内，如以下代码：
+
+```CSS
+<link href="base.css" rel="stylesheet" type="text/css">
+```
+
+&emsp;&emsp;说明：
+
+1. css 样式文件名称以有意义的英文字母命名，如 main.css；
+2. `rel="stylesheet" type="text/css"`是固定写法，不可修改；
+3. `<link>`标签位置一般写在`<head>`标签之内。
+
+## 7.6 三种链接方式的优先级
+
+&emsp;&emsp;一般来说，三种样式的优先级为：**内联式 > 嵌入式 > 外部式**。<br/>
+&emsp;&emsp;但这里的**嵌入式 > 外部式**有一个前提：嵌入式 css 样式的位置一定在外部式的后面，否则优先级顺序会发生变化。<br/>
+&emsp;&emsp;总结地说，就是满足**就近原则**，即 css 样式离被设置元素越近优先级越高。<br/>
+&emsp;&emsp;此处总结的优先级还有一个前提，就是内联式、嵌入式、外部式样式表中 css 样式的**权值**相同。
+
+# 第八章 CSS3 选择器
+
+## 8.1 什么是选择器
+
+&emsp;&emsp;每一条 css 样式声明（定义）由两部分组成，形式如下：
+
+```CSS
+选择器 {
+    样式;
+}
+```
+
+&emsp;&emsp;在 {} 之前的部分就是“选择器”，“选择器”指明了 {} 中的“样式”的作用对象，也就是“样式”作用于网页中的哪些元素。比如以下代码中的`body`就是选择器。
+
+```HTML
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>选择器</title>
+    <style type="text/css">
+    body {
+        font-size: 12px;
+        color: red;
+    }
+    </style>
+</head>
+
+<body>
+    <p>慕课网（IMOOC）是学习编程最简单的免费平台。慕课网提供了丰富的移动端开发、php开发、web前端、html5教程以及css3视频教程等课程资源。它富有交互性及趣味性，并且你可以和朋友一起编程。</p>
+</body>
+
+</html>
+```
+
+## 8.2 标签选择器
+
+&emsp;&emsp;标签选择器其实就是 html 代码中的标签，如`<html> <body> <h1> <p> <img>`，例如以下代码：
+
+```CSS
+p { font-size: 12px; line-height: 1.6em; }
+```
+
+&emsp;&emsp;上面的 css 样式代码的作用是：为 p 标签设置 12px 字号，行间距设置 1.6em 的样式。
+
+## 8.3 类选择器
+
+&emsp;&emsp;类选择器在 css 样式编码中是最常用到的，语法如下：
+
+```CSS
+.类选择器名称 { css 样式代码; }
+```
+
+&emsp;&emsp;说明：
+
+1. 以英文圆点开头；
+2. 类选择器名称为任意英文字符
+
+&emsp;&emsp;步骤：
+
+-   第一步：使用合适的表情把要修饰的内容标记起来
+
+```CSS
+<span>我的文字</span>
+```
+
+-   第二步：使用`class = "类选择器名称"`为标签设置一个类
+
+```CSS
+<span class="stress">我的文字</span>
+```
+
+-   第三步：设置类选择器 css 样式
+
+```CSS
+.stress {
+    color: red;
+}
+```
+
+## 8.4 ID 选择器
+
+&emsp;&emsp;示例：
+
+```HTML
+<body>
+    <!-- 给元素 id 属性赋值 -->
+    <div id='box'>我是一个div</div>
+</body>
+```
+```CSS
+<style>
+    /*# 加上元素的 id 值，构成 id 选择器*/
+    #box {
+        color: red;
+    }
+</style>
+```
+
+&emsp;&emsp;说明：
+1. 使用 ID 选择器，必须给标签添加上 id 属性，为标签设置`id="ID名称"`，而不是`class="类名称"`；
+2. ID 选择符的前面是`#`，而不是`.`；
+3. id 属性的值即为当前标签的 id，尽量有实际意义。
