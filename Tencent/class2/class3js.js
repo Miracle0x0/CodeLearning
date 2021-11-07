@@ -60,9 +60,21 @@ class Main extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			list: ["日志1", "日志2"],
+			list: [],
 		};
 	}
+
+	componentDidMount() {
+		//ajax
+		this.setState({
+			list: ["日志1", "日志2"],
+		});
+	}
+
+	componentDidMount() {
+		console.log(this.state.list);
+	}
+
 	clearList() {
 		//this.state.list = []; 错误写法
 		this.setState({
