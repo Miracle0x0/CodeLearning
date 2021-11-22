@@ -4,10 +4,11 @@
 
 ## 0-1 背包
 
-已知条件：背包总容量 W，第 i 个物品的重量 $w_i$，价值 $v_i$。<br/>
-设 DP 状态 $dp_{i, j}$ 为在只能放**前 i 个**物品的情况下，容量为 **j** 的背包所能达到的最大总价值。<br/>
-状态转移方程为：
+已知条件：背包总容量 W，第 i 个物品的重量 $w_i$，价值 $v_i$。**每个物品最多选取一次**。<br/>
 
+设 DP 状态 $dp_{i, j}$ 为在只能放**前 i 个**物品的情况下，容量为 **j** 的背包所能达到的最大总价值。那么对于第 i 个物品，若不将其**放入**背包，那么背包的剩余容量不变，背包中物品的总价值也不变，此种情况下最大价值为 $dp_{i-1, j}$；若将其**放入**背包，背包的剩余容量会减少 $w_i$，背包中物品的总价值会增加 $v_i$，此情况下最大价值为 $dp_{i-1,j-w_i} + v_i$。<br/>
+
+由此得出状态转移方程为：
 $$
 dp_{i, j} = max(dp_{i-1,j}, dp_{i-1,j-w_i} + v_i)
 $$
@@ -17,6 +18,71 @@ $$
 $$
 dp_i = max(dp_i, dp_{j-w_i} + v_i)
 $$
+
+核心代码：
+
+```c++
+template<typename T>
+void ZeroOnePack(T dp[], int weight, int value) {
+    for (int i = W; i >= weight; i--)
+        dp[i] = max(dp[i], dp[i - weight] + value);
+}
+```
+
+## 完全背包
+
+已知条件：背包总容量 W，第 i 个物品的重量 $w_i$，价值 $v_i$。**每个物品可以选取无限次**。<br/>
+
+依然设 DP 状态 $dp_{i, j}$ 为在只能放**前 i 个**物品的情况下，容量为 **j** 的背包所能达到的最大总价值。<br/>
+
+考虑朴素的做法：对于第 i 件物品，枚举其被选取的次数来进行转移。这种做法的时间复杂度是 $~O~$($n^3$) 的。状态转移方程为：
+$$
+dp_{i, j} = \max_{k=0}^{+\infty}(dp_{i-1,j-k\times w_i} + v_i \times k)
+$$
+下面考虑优化。可以发现，对于 $dp_{i, j}$ ，只要通过 $dp_{i, j-w_i}$ 转移即可。优化后的状态转移方程为：
+$$
+dp_{i,j} = \max(dp_{i-1,j}, dp_{i, j - w_i} + v_i)
+$$
+为什么可以这样处理呢？因为当我们这样转移时，$dp_{i, j-w_i}$ 已经由 $dp_{i, j-2\times w_i}$ 更新过，$dp{i,j-w_i}$ 就是充分考虑了第 i 件物品所选次数之后得到的最优结果。换言之，我们通过最优子结构的性质重复使用了之前的枚举过程，优化了枚举步骤的复杂度。<br/>
+
+与 0-1 背包类似，我们可以去掉第一维优化空间复杂度，但需要注意此处的更新方向。<br/>
+
+核心代码：
+
+```c++
+template<typename T>
+void CompletePack(T dp[], int weight, int value) {
+    for (int i = weight; i <= W; i++)
+        dp[i] = max(dp[i], dp[i - weight] + value);
+}
+```
+
+## 多重背包
+
+已知条件：背包总容量 W，第 i 个物品的重量 $w_i$，价值 $v_i$。**每个物品可以选取 $k_i$ 次**。<br/>
+
+朴素的想法是：把**每种物品选 $k_i$ 次**等价转换为**有 $k_i$ 个相同的物品，每个物品选一次**。这样就转换成了一个 0-1 背包模型，套用前面的方法可以解决。状态转移方程如下：
+$$
+dp_{i,j} = \max_{k=0}^{k_i}(dp_{i-1,j-k\times w_i} + v_i\times k)
+$$
+时间复杂度为 $~O~(~W~$$\sum_{i=1}^{n}k_i)$。<br/>
+
+核心代码：
+
+```c++
+template<typename T>
+void MultiplePack(T dp[], int weight, int value, int k) {
+    if (weight * k >= W || k == 0) {//退化为完全背包
+        CompletePack(dp, weight, value);
+        return;
+    }
+    for (int i = 1; i <= k; i <<= 1) {//二进制分组优化
+        ZeroOnePack(dp, weight * i, value * i);
+        k -= i;
+    }
+    ZeroOnePack(dp, weight * k, value * k);
+}
+```
 
 ## 混合背包
 
