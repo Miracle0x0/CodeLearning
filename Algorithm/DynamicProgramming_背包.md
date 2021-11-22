@@ -65,7 +65,7 @@ void CompletePack(T dp[], int weight, int value) {
 $$
 dp_{i,j} = \max_{k=0}^{k_i}(dp_{i-1,j-k\times w_i} + v_i\times k)
 $$
-时间复杂度为 $~O~(~W~$$\sum_{i=1}^{n}k_i)$。<br/>
+时间复杂度为 $O(W$$\sum_{i=1}^{n}k_i)$。<br/>
 
 核心代码：
 
